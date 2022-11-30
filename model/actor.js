@@ -1,6 +1,7 @@
 var db = require('./databaseConfig.js');
 
 var actorDB = {
+      // Endpoint 1 
       getActor: function (actor_id, callback) {
             var conn = db.getConnection();
             conn.connect(function (err) {
@@ -8,10 +9,9 @@ var actorDB = {
                         console.log(err);
                         return callback(err, null);
                   }
-                  // 
                   else {
                         console.log("Connected!");
-                        var sql = 'SELECT * FROM user WHERE actor_id = ?';
+                        var sql = 'SELECT * FROM actor WHERE actor_id = ?';
                         conn.query(sql, [actor_id], (err, result) => {
                               conn.end();
                               if (err) {
@@ -25,6 +25,9 @@ var actorDB = {
 
             });
       },
+
+      // Endpoint 3 
+
       addActor: function (first_name, last_name, callback) {
 
             var conn = db.getConnection();
@@ -37,7 +40,6 @@ var actorDB = {
                         console.log("Connected!");
 
                         var sql = 'Insert into actor(first_name, last_name) values(?,?)';
-
                         conn.query(sql, [first_name,last_name], function (err, result) {
                               conn.end();
 
@@ -46,10 +48,7 @@ var actorDB = {
                                     return callback(err, null);
 
                               } else {
-                                    
-                                    console.log(result.affectedRows);
-                                    return callback(null, result.affectedRows.actor_id);
-
+                                    return callback(null, result.insertId)
                               }
                         });
 
