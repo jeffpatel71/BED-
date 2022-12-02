@@ -11,7 +11,7 @@ var actorDB = {
                   }
                   else {
                         console.log("Connected!");
-                        var sql = 'SELECT * FROM actor WHERE actor_id = ?';
+                        var sql = 'SELECT actor_id, first_name, last_name FROM actor WHERE actor_id = ?';
                         conn.query(sql, [actor_id], (err, result) => {
                               conn.end();
                               if (err) {

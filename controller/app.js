@@ -10,18 +10,20 @@ app.use(urlencodedParser); // parse application/x-www-form-urlencoded
 const re = /^[A-Za-z0-9 .,'!&]+$/;
 
 // Endpoint 1 
-app.get('/actor/:actor_id', function (req, res) {
+app.get('/actors/:actor_id', function (req, res) {
       var id = req.params.actor_id;
-      if(id = NaN) {
+      if(isNaN(id) === true) {
             res.status(500).send(res.type('json').status(500).send(JSON.stringify({"error_msg":"Internal server error"})));
       }
+
       actor.getActor(id, function (err, result) {
             if (!err) {
                   if (result.length == 0) {
                         res.status(204).send("No Content. Record of given actor_id cannot be found.")
                   }
                   else {
-                        res.status(200).send(result);
+                        result[0].actor_id = result[0].actor_id.toString()
+                        res.status(200).send(result[0]);
                   }
             } else {
                   res.type('json').status(500).send(JSON.stringify({"error_msg":"Internal server error"}))
